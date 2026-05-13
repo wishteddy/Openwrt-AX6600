@@ -81,7 +81,7 @@ fi
 # 智能系统调优：优化内存水位线 (min_free_kbytes)
 # =========================================================
 
-MIN_FREE_VAL=8192
+MIN_FREE_VAL=16384
 CONF_FILE="./package/base-files/files/etc/sysctl.conf"
 
 # 提取当前值（只匹配非注释、行首）
