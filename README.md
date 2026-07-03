@@ -83,10 +83,15 @@ Releases 页面每个版本包含以下文件（PURE 与 PLUS 分开发布，Rel
    dd if=/dev/mtd1 of=/tmp/partition_table.bin
    ```
 2. **验证文件完整性**
+
+   每个 Release 附带 `sha256sums.txt` 校验文件，将其与固件下载到同一目录后执行：
    ```bash
-   # 下载固件和校验和文件
-   # 验证 SHA256
-   sha256sum -c firmware.bin.sha256
+   # Linux / macOS
+   sha256sum -c sha256sums.txt --ignore-missing
+   ```
+   ```powershell
+   # Windows：计算固件哈希，与 sha256sums.txt 中对应行比对
+   certutil -hashfile 固件文件名.bin SHA256
    ```
 3. **准备恢复方案**
    - 保留 TTL 串口工具

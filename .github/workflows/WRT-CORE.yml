@@ -264,6 +264,9 @@ jobs:
 
             find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
 
+            # 对最终命名后的固件生成校验文件，供用户刷机前验证下载完整性；失败不阻塞发布
+            (cd ./upload/ && sha256sum *.bin > sha256sums.txt) || true
+
             make clean -j$(nproc)
           fi
 
@@ -331,6 +334,7 @@ jobs:
             - 已是 OpenWrt/ImmortalWrt 升级：选文件名带 sysupgrade 的文件
             - Config-*.txt：本次编译的完整 .config 配置，便于复现或二次定制
             - Packages-*.txt：外部插件（PassWall / OpenClash 等）的仓库、分支与 commit 记录，仅 PLUS 版提供
+            - sha256sums.txt：固件校验文件，刷机前请先校验下载完整性（方法见 README 刷机前必读）
 
             ⚠️ 风险提示
             刷机存在风险，请确认：
