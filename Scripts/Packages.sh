@@ -62,12 +62,11 @@ UPDATE_PACKAGE() {
 #UPDATE_PACKAGE "momo" "nikkinikki-org/OpenWrt-momo" "main"
 #UPDATE_PACKAGE "nikki" "nikkinikki-org/OpenWrt-nikki" "main"
 if [[ "${WRT_PROFILE^^}" == "RICH" ]]; then
+	# "*passwall*" 通配已包含 luci-app-passwall 目录，LuCI 入口随包一并提取，
+	# 依赖包（xray 等）由 passwall_packages feed 提供，避免同名包双重定义。
 	UPDATE_PACKAGE "openclash" "vernesong/OpenClash" "master" "pkg"
 	UPDATE_PACKAGE "passwall" "Openwrt-Passwall/openwrt-passwall" "main" "pkg"
 	UPDATE_PACKAGE "passwall2" "Openwrt-Passwall/openwrt-passwall2" "main" "pkg"
-	# 明确拉取 LuCI 目录，避免只拉到依赖包导致固件内没有管理界面入口。
-	UPDATE_PACKAGE "luci-app-passwall" "Openwrt-Passwall/openwrt-passwall" "main" "pkg"
-	UPDATE_PACKAGE "luci-app-passwall2" "Openwrt-Passwall/openwrt-passwall2" "main" "pkg"
 fi
 
 #UPDATE_PACKAGE "mosdns" "sbwml/luci-app-mosdns" "v5" "" "v2dat"

@@ -89,7 +89,7 @@ OpenWrt / AX6600 / IPQ6010 / JDCloud RE-CS-02 / NSS / Router Firmware / Cloud Bu
 - `PURE`：推荐作为日常稳定版，保持当前轻量配置。
 - `RICH`：丰富版会额外集成 Docker / Dockerman、PassWall / PassWall2、OpenClash、AdGuard Home，固件体积和运行资源占用都会明显高于纯净版。
 - 手动测试时可在 `WRT-TEST` 工作流选择 `PROFILE=PURE` 或 `PROFILE=RICH`；建议丰富版发布前至少先用 `TEST=true` 生成最终 `.config`，再用完整编译确认上游插件依赖没有变化。
-- Release 会额外上传 `Packages-*.txt` 记录丰富版外部插件仓库、分支和 commit，方便排查 OpenClash / PassWall / PassWall2 上游变更导致的编译问题。丰富版还会额外加入 PassWall/PassWall2 feeds，并显式拉取 `luci-app-passwall` 与 `luci-app-passwall2`，避免出现“编译成功但系统里没有插件入口”的情况。
+- Release 会额外上传 `Packages-*.txt` 记录丰富版外部插件仓库、分支和 commit，方便排查 OpenClash / PassWall / PassWall2 上游变更导致的编译问题。丰富版的 LuCI 插件（PassWall / PassWall2 / OpenClash）直接克隆到 `package/`（优先级高于 feeds，保证插件入口进入固件），其依赖包（xray、sing-box 等）由 `passwall_packages` feed 提供，两者来源唯一、互不重复。
 
 > ⚠️ 丰富版依赖外部插件仓库和上游 feeds，若上游调整包名或依赖，可能需要同步更新 `Config/GENERAL_AX6600_RICH.txt`。
 

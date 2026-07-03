@@ -59,7 +59,7 @@ env:
   WRT_SOURCE: ${{inputs.WRT_SOURCE}}
   WRT_PACKAGE: ${{inputs.WRT_PACKAGE}}
   WRT_PROFILE: ${{inputs.WRT_PROFILE}}
-  WRT_PKG_INFO: none
+  WRT_PKG_INFO: 无（纯净版不集成外部插件）
   WRT_TEST: ${{inputs.WRT_TEST}}
 
 jobs:
@@ -118,13 +118,10 @@ jobs:
             sed -i '/.cn\//d; /tencent/d; /aliyun/d' "$PROJECT_MIRRORS_FILE"
           fi
 
-          # 丰富版补充 PassWall feeds，避免只生成依赖包但 LuCI 插件未进入最终固件。
+          # 丰富版补充 PassWall 依赖包 feed（xray/sing-box 等）。
+          # LuCI 插件本体由 Packages.sh 克隆到 package/，这里不再加 LuCI feed，避免同名包双重定义。
           if [[ "$WRT_PROFILE" == "RICH" ]]; then
-            {
-              echo "src-git passwall_packages https://github.com/Openwrt-Passwall/openwrt-passwall-packages"
-              echo "src-git passwall_luci https://github.com/Openwrt-Passwall/openwrt-passwall"
-              echo "src-git passwall2_luci https://github.com/Openwrt-Passwall/openwrt-passwall2"
-            } >> feeds.conf.default
+            echo "src-git passwall_packages https://github.com/Openwrt-Passwall/openwrt-passwall-packages" >> feeds.conf.default
           fi
 
       - name: Check Scripts
@@ -136,8 +133,9 @@ jobs:
         if: env.WRT_TEST != 'true'
         uses: actions/cache@v4
         with:
-          key: ${{env.WRT_CONFIG}}-${{env.WRT_PROFILE}}-${{env.WRT_INFO}}-${{env.WRT_HASH}}
-          restore-keys: ${{env.WRT_CONFIG}}-${{env.WRT_PROFILE}}-${{env.WRT_INFO}}
+          # 缓存内容（ccache/宿主工具/工具链）与 profile 无关，PURE 和 RICH 共享同一份，避免缓存翻倍挤占配额
+          key: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_HASH}}
+          restore-keys: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}
           path: |
             ./wrt/.ccache
             ./wrt/staging_dir/host*
@@ -159,9 +157,10 @@ jobs:
           fi
 
           if ${{steps.check-cache.outputs.cache-hit != 'true'}}; then
-            CACHE_LIST=$(gh cache list --key "$WRT_CONFIG-$WRT_PROFILE-$WRT_INFO" | cut -f 1)
+            CACHE_LIST=$(gh cache list --key "$WRT_CONFIG-$WRT_INFO" | cut -f 1)
             for CACHE_KEY in $CACHE_LIST; do
-              gh cache delete $CACHE_KEY
+              # PURE/RICH 两个任务可能并发清理同一批缓存，删除失败（已被对方删掉）不视为错误
+              gh cache delete $CACHE_KEY || true
             done
 
             echo "caches cleanup done!"
@@ -183,6 +182,9 @@ jobs:
 
           : > "$GITHUB_WORKSPACE/package-versions.txt"
           $GITHUB_WORKSPACE/Scripts/Packages.sh
+          if [[ "$WRT_PROFILE" == "RICH" && -e ../feeds/passwall_packages/.git ]]; then
+            echo "passwall_packages(feed) Openwrt-Passwall/openwrt-passwall-packages main $(git -C ../feeds/passwall_packages rev-parse --short HEAD)" >> "$GITHUB_WORKSPACE/package-versions.txt"
+          fi
           if [ -s "$GITHUB_WORKSPACE/package-versions.txt" ]; then
             {
               echo 'WRT_PKG_INFO<<EOF'
