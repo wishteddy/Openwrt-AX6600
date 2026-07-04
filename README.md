@@ -60,7 +60,7 @@ Releases 页面每个版本包含以下文件（PURE 与 PLUS 分开发布，Rel
 
 | 文件 | 说明 |
 |------|------|
-| `源码作者-分支-pure/plus-wifi模式-设备型号-时间.bin` 等 | 固件本体；文件名带 `factory` 用于从原厂固件首次刷入，带 `sysupgrade` 用于 OpenWrt/ImmortalWrt 系统内升级 |
+| `源码作者-分支-pure/plus-设备型号-时间.bin` 等 | 固件本体；文件名带 `factory` 用于从原厂固件首次刷入，带 `sysupgrade` 用于 OpenWrt/ImmortalWrt 系统内升级 |
 | `Config-配置-版本-作者-分支-时间.txt` | 本次编译使用的完整 `.config`，便于复现构建或二次定制 |
 | `Packages-配置-版本-作者-分支-时间.txt` | 外部插件（PassWall / PassWall2 / OpenClash 及依赖 feed）的仓库、分支与 commit 记录，仅 `PLUS` 版生成，便于排查上游变更 |
 
