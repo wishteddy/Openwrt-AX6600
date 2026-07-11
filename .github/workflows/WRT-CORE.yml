@@ -297,8 +297,8 @@ jobs:
             ━━━━━━━━━━━━━━━━━━━━━━━
 
             📌 基本信息
-            源码仓库：${{ env.WRT_REPO }}
-            编译分支：${{ env.WRT_BRANCH }}
+            <!-- 源码仓库：${{ env.WRT_REPO }} -->
+            <!-- 编译分支：${{ env.WRT_BRANCH }} -->
             固件版本：${{ env.WRT_PROFILE }}
             版本说明：${{ env.WRT_PROFILE_DESC }}
             提交版本：${{ env.WRT_HASH }}
@@ -330,10 +330,18 @@ jobs:
             WiFi 名称：${{ env.WRT_SSID }}
             WiFi 密码：${{ env.WRT_WORD }}
             ━━━━━━━━━━━━━━━━━━━━━━━
+
+            📶 WiFi 推荐设置（雅典娜三频三 WiFi）
+            - 2.4G（2×2）：信道 11，带宽 20MHz
+            - 5G-1 游戏频段（4×4）：信道 44，带宽 160MHz（无法开启或断流则回退 80MHz）
+            - 5G-2 影音频段（2×2）：信道 149，带宽 80MHz
+            - 通用：地区 US，发射功率 24 dBm，加密 WPA2-PSK（CCMP 算法）
+            ━━━━━━━━━━━━━━━━━━━━━━━
             📥 下载与刷机说明
             - 本 Release 为 ${{ env.WRT_PROFILE }} 版固件；两个版本分开发布，请从 README 下载入口按需选择
             - 首次从原厂固件刷入：选文件名带 factory 的文件
             - 已是 OpenWrt/ImmortalWrt 升级：选文件名带 sysupgrade 的文件
+            - 刷机 / 救砖完整教程：[刷机救砖教程](${{ github.server_url }}/${{ github.repository }}/blob/main/Docs/刷机救砖教程.md)
             - Config-*.txt：本次编译的完整 .config 配置，便于复现或二次定制
             - Packages-*.txt：外部插件（OpenClash / PassWall2 等）的仓库、分支与 commit 记录（纯净版无外部插件，无此文件）
             - sha256sums.txt：固件校验文件，刷机前请先校验下载完整性（方法见 README 刷机前必读）
