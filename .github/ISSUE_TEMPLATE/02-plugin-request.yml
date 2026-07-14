@@ -2,6 +2,23 @@ name: 🧩 插件集成请求 / Plugin Request
 description: 希望固件集成某个插件或内核模块（默认只集成进 PLUS 版，PURE 保持轻量）
 labels: [enhancement]
 body:
+  - type: dropdown
+    id: profile
+    attributes:
+      label: 你使用的固件版本 / Profile
+      options:
+        - PLUS 版
+        - PURE 纯净版
+        - 还没刷，准备刷
+    validations:
+      required: true
+  - type: checkboxes
+    id: checked
+    attributes:
+      label: 提交前确认 / Pre-check
+      options:
+        - label: 我已查看最新 Release 的 Config-*.txt / 固件插件列表，确认该插件未内置（PLUS 已内置 Docker、PassWall2、OpenClash、AdGuard Home、ttyd 等）
+          required: true
   - type: input
     id: name
     attributes:
