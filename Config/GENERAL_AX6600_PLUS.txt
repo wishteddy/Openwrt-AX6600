@@ -2,13 +2,13 @@
 # 注意：本文件会在 GENERAL_AX6600.txt 之后追加，必要时覆盖纯净版的 n 选项。
 
 # Docker / 容器（管理界面统一用 dockerman，避免与 luci-app-docker 重复）
-CONFIG_PACKAGE_luci-app-dockerman=y
-CONFIG_PACKAGE_dockerd=y
-CONFIG_PACKAGE_docker=y
-CONFIG_PACKAGE_docker-compose=y
-CONFIG_PACKAGE_luci-lib-docker=y
-CONFIG_PACKAGE_cgroupfs-mount=y
-CONFIG_PACKAGE_tini=y
+#CONFIG_PACKAGE_luci-app-dockerman=n
+#CONFIG_PACKAGE_dockerd=n
+#CONFIG_PACKAGE_docker=n
+#CONFIG_PACKAGE_docker-compose=n
+#CONFIG_PACKAGE_luci-lib-docker=n
+#CONFIG_PACKAGE_cgroupfs-mount=n
+#CONFIG_PACKAGE_tini=n
 CONFIG_PACKAGE_kmod-veth=y
 CONFIG_PACKAGE_kmod-ikconfig=y
 CONFIG_PACKAGE_kmod-nf-ipvs=y
@@ -20,7 +20,7 @@ CONFIG_PACKAGE_kmod-nft-compat=y
 CONFIG_PACKAGE_kmod-nft-fullcone=y
 
 #科学插件调整
-#CONFIG_PACKAGE_luci-app-homeproxy=n
+CONFIG_PACKAGE_luci-app-homeproxy=y
 
 # PassWall2（sing-box/xray 双核心，PassWall 一代的官方继任，选项均与 Makefile 逐一核对过）
 #CONFIG_PACKAGE_luci-app-passwall2=y
@@ -61,8 +61,8 @@ CONFIG_PACKAGE_kmod-nft-fullcone=y
 #CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus=y
 
 # OpenClash
-#CONFIG_PACKAGE_luci-app-openclash=y
-#CONFIG_PACKAGE_luci-compat=y
+CONFIG_PACKAGE_luci-app-openclash=y
+CONFIG_PACKAGE_luci-compat=y
 # OpenClash 及 nftset 依赖 dnsmasq-full，显式声明避免上游默认值变化时被 defconfig 静默丢弃
 CONFIG_PACKAGE_dnsmasq-full=y
 CONFIG_PACKAGE_dnsmasq=n
