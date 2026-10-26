@@ -30,7 +30,7 @@ on:
         type: string
       PROFILE:
         description: '固件版本：PURE=纯净版，PLUS=Plus 版。'
-        default: 'PURE'
+        default: PLUS'
         required: true
         type: choice
         options:
