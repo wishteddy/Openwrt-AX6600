@@ -40,7 +40,7 @@ on:
       WRT_PROFILE:
         required: false
         type: string
-        default: PURE
+        default: PLUS
       WRT_TEST:
         required: false
         type: string
